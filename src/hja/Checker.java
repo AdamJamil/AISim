@@ -1,9 +1,8 @@
 package hja;
 
 import java.util.ArrayList;
-import static hja.Constants.empty;
 
-public class Checker
+public class Checker implements Constants
 {
     boolean checkWin(int player, Data data)
     {
@@ -29,14 +28,33 @@ public class Checker
     public Position getMoveToWin(int player, Data data)
     {
         Data newData = data.clone();
-        ArrayList<Position> movesAvailable = new ArrayList<>();
-        for (int i = 0; i < 3; i++)
-            for (int j = 0; j < 3; j++)
-                if (newData.getPos()[i][j] == empty)
-                    movesAvailable.add(new Position(i ,j));
+        ArrayList<Position> movesAvailable = data.getAvailableMoves();
         for (int i = 0; i < movesAvailable.size(); i++)
             if (checkWin(player, (newData.clone()).move(player, movesAvailable.get(i))))
                 return movesAvailable.get(i);
         return new Position();
+    }
+
+    public ArrayList<Position> getNonForkingMoves(int player, Data data)
+    {
+        ArrayList<Position> movesAvailable = data.getAvailableMoves();
+        for (int i = movesAvailable.size() - 1; i >= 0; i--)
+        {
+            Data newData = data.clone();
+            newData.move(player, movesAvailable.get(i));
+            ArrayList<Position> enemyMovesAvailable = data.getAvailableMoves();
+            for (int j = 0; j < enemyMovesAvailable.size(); j++)
+            {
+                Data newNewData = newData.clone();
+                newNewData.move(player * enemy, enemyMovesAvailable.get(j));
+                if (this.getMoveToWin(player * enemy, newNewData).x != -1)
+                {
+                    newNewData.move(player, this.getMoveToWin(player * enemy, newNewData));
+                    if (this.getMoveToWin(player * enemy, newNewData).x != -1)
+                        movesAvailable.remove(i);
+                }
+            }
+        }
+        return movesAvailable;
     }
 }

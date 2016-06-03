@@ -19,6 +19,7 @@ public class Main extends Application implements Constants
     private InputHandler inputHandler = new InputHandler();
     private Data data = new Data();
     private int turn = 0;
+    private boolean gameOver = false;
 
     @Override
     public void start(Stage primaryStage)
@@ -49,15 +50,22 @@ public class Main extends Application implements Constants
         //sets loop to 4ms delay, and calls the art loader
         KeyFrame frame = new KeyFrame(Duration.millis(4f), (event) ->
         {
-            viewPortLoader.loadViewPort();
-            Position click = inputHandler.getLastClicked();
-            int x = click.x;
-            int y = click.y;
-            if (x != -1 && y != -1)
-                if (data.move((turn % 2 == 0) ? 1 : -1, x, y))
-                    turn++;
-            if ((new Checker()).checkWin((turn % 2 == 0) ? -1 : 1, data))
-                System.out.println(((turn % 2 == 0) ? "O" : "X") + " wins");
+            if (!gameOver)
+            {
+                viewPortLoader.loadViewPort();
+                Position click = inputHandler.getLastClicked();
+                int x = click.x;
+                int y = click.y;
+                if (x != -1 && y != -1)
+                    if (data.move((turn % 2 == 0) ? 1 : -1, x, y))
+                        turn++;
+                if ((new Checker()).checkWin((turn % 2 == 0) ? -1 : 1, data))
+                {
+                    gameOver = true;
+                    System.out.println(((turn % 2 == 0) ? "O" : "X") + " wins");
+                    viewPortLoader.loadViewPort();
+                }
+            }
         });
 
         //this just puts the timeline (or main game logic) in motion
