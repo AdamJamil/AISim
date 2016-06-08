@@ -7,5 +7,6 @@ interface Constants
     lineWidth = 1,
     empty = 0,
     x = 1,
-    o = -1;
+    o = -1,
+    invalidPosition = -1;
 }

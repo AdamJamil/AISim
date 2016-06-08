@@ -23,11 +23,6 @@ public class Main extends Application implements Constants
     @Override
     public void start(Stage primaryStage)
     {
-
-        //this must be changed when adding assets
-        short mapsToLoad = 1, imagesToLoad = 3;
-        short imagesLoaded, mapsLoaded;
-
         //loads javafx setup
         //this code is mostly irrelevant and only implements the
         //javafx canvas, root and scene.
@@ -53,7 +48,7 @@ public class Main extends Application implements Constants
             Position click = inputHandler.getLastClicked();
             int x = click.x;
             int y = click.y;
-            if (x != -1 && y != -1)
+            if (x != invalidPosition && y != invalidPosition)
                 if (data.move((turn % 2 == 0) ? 1 : -1, x, y))
                     turn++;
             if ((new Checker()).checkWin((turn % 2 == 0) ? -1 : 1, data))
