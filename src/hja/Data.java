@@ -1,5 +1,8 @@
 package hja;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 class Data implements Constants
 {
     private int[][] pos = new int[][]{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
@@ -30,6 +33,16 @@ class Data implements Constants
         else
             System.out.println("EEEEEEEEEEEEEE");
         return this;
+    }
+
+    ArrayList<Position> getAvailableMoves()
+    {
+        ArrayList<Position> movesAvailable = new ArrayList<>();
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++)
+                if (this.getPos()[i][j] == empty)
+                    movesAvailable.add(new Position(i ,j));
+        return movesAvailable;
     }
 
     @Override

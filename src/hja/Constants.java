@@ -8,5 +8,5 @@ interface Constants
     empty = 0,
     x = 1,
     o = -1,
-    invalidPosition = -1;
+    enemy = -1;
 }
