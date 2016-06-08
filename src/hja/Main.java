@@ -24,11 +24,6 @@ public class Main extends Application implements Constants
     @Override
     public void start(Stage primaryStage)
     {
-
-        //this must be changed when adding assets
-        short mapsToLoad = 1, imagesToLoad = 3;
-        short imagesLoaded, mapsLoaded;
-
         //loads javafx setup
         //this code is mostly irrelevant and only implements the
         //javafx canvas, root and scene.
