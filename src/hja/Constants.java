@@ -9,4 +9,6 @@ interface Constants
     x = 1,
     o = -1,
     enemy = -1;
+
+    Position invalidPosition = new Position();
 }

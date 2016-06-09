@@ -2,7 +2,7 @@ package hja;
 
 import java.util.ArrayList;
 
-public class Checker implements Constants
+class Checker implements Constants
 {
     boolean checkWin(int player, Data data)
     {
@@ -32,8 +32,37 @@ public class Checker implements Constants
         for (int i = 0; i < movesAvailable.size(); i++)
             if (checkWin(player, (newData.clone()).move(player, movesAvailable.get(i))))
                 return movesAvailable.get(i);
+
+        System.out.println("I am dumb");
         return new Position();
     }
+
+    Position getForkingMove(int player, Data data)
+    {
+        ArrayList<Position> movesAvailable = data.getAvailableMoves();
+        for (int i = movesAvailable.size() - 1; i >= 0; i--)
+        {
+            Data newData = data.clone();
+            newData.move(player, movesAvailable.get(i));
+            if (!this.getMoveToWin(player, newData).isValid())
+            {
+                movesAvailable.remove(i);
+                break;
+            }
+            else
+            {
+                Data newNewData = newData.clone();
+                newNewData.move(player * enemy, this.getMoveToWin(player, newData));
+                if (this.getMoveToWin(player, newNewData).isValid())
+                {
+                    return movesAvailable.get(i);
+                }
+            }
+        }
+
+        return invalidPosition;
+    }
+
 
     public ArrayList<Position> getNonForkingMoves(int player, Data data)
     {
@@ -42,7 +71,7 @@ public class Checker implements Constants
         {
             Data newData = data.clone();
             newData.move(player, movesAvailable.get(i));
-            ArrayList<Position> enemyMovesAvailable = data.getAvailableMoves();
+            ArrayList<Position> enemyMovesAvailable = newData.getAvailableMoves();
             for (int j = 0; j < enemyMovesAvailable.size(); j++)
             {
                 Data newNewData = newData.clone();
@@ -51,10 +80,15 @@ public class Checker implements Constants
                 {
                     newNewData.move(player, this.getMoveToWin(player * enemy, newNewData));
                     if (this.getMoveToWin(player * enemy, newNewData).x != -1)
+                    {
                         movesAvailable.remove(i);
+                        break;
+                    }
                 }
             }
         }
+        if (movesAvailable.size() > 0)
+            System.out.println("I have found " + movesAvailable.size() + " non-forkable move(s).");
         return movesAvailable;
     }
 }

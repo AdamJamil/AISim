@@ -6,7 +6,6 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
@@ -20,6 +19,8 @@ public class Main extends Application implements Constants
     private Data data = new Data();
     private int turn = 0;
     private boolean gameOver = false;
+    private boolean testAI = true;
+    private boolean aiFirst = false;
 
     @Override
     public void start(Stage primaryStage)
@@ -41,24 +42,49 @@ public class Main extends Application implements Constants
 
         //gives the ViewPortLoader the relevant information with which to draw
         viewPortLoader = new ViewPortLoader(canvas.getGraphicsContext2D(), data);
+        ProceduralAI ai = new ProceduralAI(-1);
 
         //sets loop to 4ms delay, and calls the art loader
         KeyFrame frame = new KeyFrame(Duration.millis(4f), (event) ->
         {
             if (!gameOver)
             {
-                viewPortLoader.loadViewPort();
-                Position click = inputHandler.getLastClicked();
-                int x = click.x;
-                int y = click.y;
-                if (x != -1 && y != -1)
-                    if (data.move((turn % 2 == 0) ? 1 : -1, x, y))
-                        turn++;
-                if ((new Checker()).checkWin((turn % 2 == 0) ? -1 : 1, data))
+                if (testAI)
                 {
-                    gameOver = true;
-                    System.out.println(((turn % 2 == 0) ? "O" : "X") + " wins");
                     viewPortLoader.loadViewPort();
+                    Position click = inputHandler.getLastClicked();
+                    int x = click.x;
+                    int y = click.y;
+                    if ((aiFirst && turn % 2 == 0) || (!aiFirst && turn % 2 == 1))
+                    {
+                        data.move(ai.getPlayer(), ai.getMove(data));
+                        turn++;
+                    }
+                    else if (x != -1 && y != -1)
+                        if (data.move((turn % 2 == 0) ? 1 : -1, x, y))
+                            turn++;
+                    if ((new Checker()).checkWin((turn % 2 == 0) ? -1 : 1, data))
+                    {
+                        gameOver = true;
+                        System.out.println(((turn % 2 == 0) ? "O" : "X") + " wins");
+                        viewPortLoader.loadViewPort();
+                    }
+                }
+                else
+                {
+                    viewPortLoader.loadViewPort();
+                    Position click = inputHandler.getLastClicked();
+                    int x = click.x;
+                    int y = click.y;
+                    if (x != -1 && y != -1)
+                        if (data.move((turn % 2 == 0) ? 1 : -1, x, y))
+                            turn++;
+                    if ((new Checker()).checkWin((turn % 2 == 0) ? -1 : 1, data))
+                    {
+                        gameOver = true;
+                        System.out.println(((turn % 2 == 0) ? "O" : "X") + " wins");
+                        viewPortLoader.loadViewPort();
+                    }
                 }
             }
         });

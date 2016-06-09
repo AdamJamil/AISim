@@ -1,6 +1,5 @@
 package hja;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 class Data implements Constants
@@ -14,7 +13,6 @@ class Data implements Constants
 
     boolean move(int player, int x, int y)
     {
-        System.out.println("??");
         if (pos[x][y] == empty)
         {
             pos[x][y] = player;
