@@ -34,4 +34,11 @@ class Position
     {
         return (x == 1 && y == 1);
     }
+
+    @Override
+    public String toString()
+    {
+        return "(" + this.x + ", " + this.y + ")";
+    }
+
 }

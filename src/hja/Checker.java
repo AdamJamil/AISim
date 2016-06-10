@@ -32,8 +32,6 @@ class Checker implements Constants
         for (int i = 0; i < movesAvailable.size(); i++)
             if (checkWin(player, (newData.clone()).move(player, movesAvailable.get(i))))
                 return movesAvailable.get(i);
-
-        System.out.println("I am dumb");
         return new Position();
     }
 
@@ -60,31 +58,22 @@ class Checker implements Constants
             }
         }
 
-        return invalidPosition;
+        return new Position();
     }
 
 
     public ArrayList<Position> getNonForkingMoves(int player, Data data)
     {
         ArrayList<Position> movesAvailable = data.getAvailableMoves();
+        System.out.println(movesAvailable + "getNonForkingMoves");
         for (int i = movesAvailable.size() - 1; i >= 0; i--)
         {
             Data newData = data.clone();
             newData.move(player, movesAvailable.get(i));
-            ArrayList<Position> enemyMovesAvailable = newData.getAvailableMoves();
-            for (int j = 0; j < enemyMovesAvailable.size(); j++)
+            if (this.getForkingMove(player * enemy, newData).isValid())
             {
-                Data newNewData = newData.clone();
-                newNewData.move(player * enemy, enemyMovesAvailable.get(j));
-                if (this.getMoveToWin(player * enemy, newNewData).x != -1)
-                {
-                    newNewData.move(player, this.getMoveToWin(player * enemy, newNewData));
-                    if (this.getMoveToWin(player * enemy, newNewData).x != -1)
-                    {
-                        movesAvailable.remove(i);
-                        break;
-                    }
-                }
+                System.out.println("we did it");
+                movesAvailable.remove(i);
             }
         }
         if (movesAvailable.size() > 0)

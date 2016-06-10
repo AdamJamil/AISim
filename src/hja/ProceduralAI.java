@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class ProceduralAI implements Constants
 {
     private Checker checker = new Checker();
-    private int player = x;
+    private int player = o;
 
     ProceduralAI(int player)
     {
@@ -32,9 +32,17 @@ public class ProceduralAI implements Constants
         else
         {
             ArrayList<Position> remainingMoves = checker.getNonForkingMoves(player, data);
+            System.out.println(remainingMoves);
             for (int i = 0; i < remainingMoves.size(); i++)
                 if (remainingMoves.get(i).isCenter())
                     return remainingMoves.get(i);
+            for(int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                    System.out.print(data.getPos()[i][j]);
+                System.out.println();
+            }
+
             if (data.getPos()[0][0] == player * enemy && data.getPos()[2][2] == empty)
                 return new Position(2, 2);
             if (data.getPos()[0][2] == player * enemy && data.getPos()[2][0] == empty)
