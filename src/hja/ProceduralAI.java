@@ -32,7 +32,6 @@ public class ProceduralAI implements Constants
         else
         {
             ArrayList<Position> remainingMoves = checker.getNonForkingMoves(player, data);
-            System.out.println(remainingMoves);
             for (int i = 0; i < remainingMoves.size(); i++)
                 if (remainingMoves.get(i).isCenter())
                     return remainingMoves.get(i);

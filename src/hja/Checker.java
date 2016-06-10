@@ -40,8 +40,13 @@ class Checker implements Constants
         ArrayList<Position> movesAvailable = data.getAvailableMoves();
         for (int i = movesAvailable.size() - 1; i >= 0; i--)
         {
+            System.out.println();
+            System.out.println("data");
+            System.out.println(data);
             Data newData = data.clone();
             newData.move(player, movesAvailable.get(i));
+            System.out.println("newData");
+            System.out.println(newData);
             if (!this.getMoveToWin(player, newData).isValid())
             {
                 System.out.println(data);
@@ -52,9 +57,17 @@ class Checker implements Constants
             else
             {
                 Data newNewData = newData.clone();
+                if (this.getMoveToWin(player * enemy, newNewData).isValid())
+                    break;
                 newNewData.move(player * enemy, this.getMoveToWin(player, newData));
+                System.out.println(newNewData);
                 if (this.getMoveToWin(player, newNewData).isValid())
+                {
+                    if (checkWin(player * enemy, newNewData))
+                        break;
+                    System.out.println(" can be forked on " + movesAvailable.get(i) + " with " + this.getMoveToWin(player, newNewData));
                     return movesAvailable.get(i);
+                }
             }
         }
 
@@ -65,13 +78,16 @@ class Checker implements Constants
     public ArrayList<Position> getNonForkingMoves(int player, Data data)
     {
         ArrayList<Position> movesAvailable = data.getAvailableMoves();
-        //System.out.println(movesAvailable + "getNonForkingMoves");
+        System.out.println(movesAvailable + "getNonForkingMoves");
         for (int i = movesAvailable.size() - 1; i >= 0; i--)
         {
+            System.out.print(movesAvailable.get(i));
             Data newData = data.clone();
             newData.move(player, movesAvailable.get(i));
             if (this.getForkingMove(player * enemy, newData).isValid())
+            {
                 movesAvailable.remove(i);
+            }
         }
         if (movesAvailable.size() > 0)
             System.out.println("I have found " + movesAvailable.size() + " non-forkable move(s).");
