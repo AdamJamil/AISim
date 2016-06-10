@@ -24,11 +24,11 @@ public class ProceduralAI implements Constants
             System.out.println("1");
             return checker.getMoveToWin(player * enemy, data);
         }
-        else if (checker.getForkingMove(player, data).isValid())
-        {
-            System.out.println("2");
-            return checker.getForkingMove(player, data);
-        }
+        //else if (checker.getForkingMove(player, data).isValid())
+        //{
+        //    System.out.println("2");
+        //    return checker.getForkingMove(player, data);
+        //}
         else
         {
             ArrayList<Position> remainingMoves = checker.getNonForkingMoves(player, data);

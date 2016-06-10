@@ -44,6 +44,8 @@ class Checker implements Constants
             newData.move(player, movesAvailable.get(i));
             if (!this.getMoveToWin(player, newData).isValid())
             {
+                System.out.println(data);
+                System.out.println(movesAvailable.get(i) + "cannot win");
                 movesAvailable.remove(i);
                 break;
             }
@@ -52,9 +54,7 @@ class Checker implements Constants
                 Data newNewData = newData.clone();
                 newNewData.move(player * enemy, this.getMoveToWin(player, newData));
                 if (this.getMoveToWin(player, newNewData).isValid())
-                {
                     return movesAvailable.get(i);
-                }
             }
         }
 
@@ -65,16 +65,13 @@ class Checker implements Constants
     public ArrayList<Position> getNonForkingMoves(int player, Data data)
     {
         ArrayList<Position> movesAvailable = data.getAvailableMoves();
-        System.out.println(movesAvailable + "getNonForkingMoves");
+        //System.out.println(movesAvailable + "getNonForkingMoves");
         for (int i = movesAvailable.size() - 1; i >= 0; i--)
         {
             Data newData = data.clone();
             newData.move(player, movesAvailable.get(i));
             if (this.getForkingMove(player * enemy, newData).isValid())
-            {
-                System.out.println("we did it");
                 movesAvailable.remove(i);
-            }
         }
         if (movesAvailable.size() > 0)
             System.out.println("I have found " + movesAvailable.size() + " non-forkable move(s).");

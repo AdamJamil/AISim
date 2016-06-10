@@ -52,4 +52,13 @@ class Data implements Constants
                 data.move(this.getPos()[i][j], i, j);
         return data;
     }
+
+    @Override
+    public String toString()
+    {
+        return pos[0][0] + " " + pos[1][0] + " " + pos[2][0] + "\n" +
+               pos[0][1] + " " + pos[1][1] + " " + pos[2][1] + "\n" +
+               pos[0][2] + " " + pos[1][2] + " " + pos[2][2] + "\n";
+    }
+
 }
