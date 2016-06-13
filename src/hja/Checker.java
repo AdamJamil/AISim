@@ -49,8 +49,8 @@ class Checker implements Constants
             System.out.println(newData);
             if (!this.getMoveToWin(player, newData).isValid())
             {
-                System.out.println(data);
                 System.out.println(movesAvailable.get(i) + "cannot win");
+                System.out.println();
                 movesAvailable.remove(i);
                 break;
             }
@@ -58,7 +58,12 @@ class Checker implements Constants
             {
                 Data newNewData = newData.clone();
                 if (this.getMoveToWin(player * enemy, newNewData).isValid())
+                {
+                    System.out.println(movesAvailable.get(i) + "will lose");
+                    System.out.println();
+                    movesAvailable.remove(i);
                     break;
+                }
                 newNewData.move(player * enemy, this.getMoveToWin(player, newData));
                 System.out.println(newNewData);
                 if (this.getMoveToWin(player, newNewData).isValid())
