@@ -25,7 +25,7 @@ class Checker implements Constants
                 (three == player && five == player && seven == player);
     }
 
-    public Position getMoveToWin(int player, Data data)
+    Position getMoveToWin(int player, Data data)
     {
         Data newData = data.clone();
         ArrayList<Position> movesAvailable = data.getAvailableMoves();
@@ -35,7 +35,7 @@ class Checker implements Constants
         return new Position();
     }
 
-    Position getForkingMove(int player, Data data)
+    private Position getForkingMove(int player, Data data)
     {
         ArrayList<Position> movesAvailable = data.getAvailableMoves();
         System.out.println(movesAvailable + " getForkingMovesList");
@@ -87,7 +87,7 @@ class Checker implements Constants
     }
 
 
-    public ArrayList<Position> getNonForkingMoves(int player, Data data)
+    ArrayList<Position> getNonForkingMoves(int player, Data data)
     {
         ArrayList<Position> movesAvailable = data.getAvailableMoves();
         for (int i = movesAvailable.size() - 1; i >= 0; i--)

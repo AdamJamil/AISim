@@ -2,7 +2,7 @@ package hja;
 
 import java.util.ArrayList;
 
-public class ProceduralAI implements Constants
+class ProceduralAI implements Constants
 {
     private Checker checker = new Checker();
     private int player = o;
